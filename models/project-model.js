@@ -5,18 +5,24 @@ const db = require("../data/config");
 module.exports = {
   /// function names
   getUsers,
-  register,
-  login,
+  add,
+  findBy,
 };
 
 function getUsers() {
   return db("users");
 }
 
-function register() {
-  return db("users");
+async function add(user) {
+  try {
+    const [id] = await db("users").insert(user, "id");
+
+    return db("users");
+  } catch (error) {
+    throw error;
+  }
 }
 
-function login() {
-  return db("users");
+function findBy(filter) {
+  return db("users").where(filter).orderBy("id");
 }
